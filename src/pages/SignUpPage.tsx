@@ -1,13 +1,64 @@
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
+
+interface ErrorState {
+  error: boolean
+  errorMessage: string
+}
+interface EmailState extends ErrorState {
+  email: string
+}
+interface PasswordState extends ErrorState {
+  password: string
+}
 
 const SignUpPage = () => {
-  const [email, setEmail] = useState({
+  const [email, setEmail] = useState<EmailState>({
     email: '',
-    error: '',
+    error: false,
+    errorMessage: '',
   })
-  const [password, setPassword] = useState({ password: '', error: '' })
+  const [password, setPassword] = useState<PasswordState>({
+    password: '',
+    error: false,
+    errorMessage: '',
+  })
   const isSubmittable = !email.error && !password.error
 
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const regExp = new RegExp('[@]')
+    const validated = regExp.test(e.target.value)
+    validated
+      ? setEmail((prev) => ({
+          ...prev,
+          email: e.target.value,
+          error: false,
+          errorMessage: '',
+        }))
+      : setEmail((prev) => ({
+          ...prev,
+          email: e.target.value,
+          error: true,
+          errorMessage: 'Email should have at least 1 @',
+        }))
+  }
+
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const regExp = new RegExp('.{8,}')
+    const validated = regExp.test(e.target.value)
+    validated
+      ? setPassword((prev) => ({
+          ...prev,
+          error: false,
+          errorMessage: '',
+          password: e.target.value,
+        }))
+      : setPassword((prev) => ({
+          ...prev,
+          password: e.target.value,
+          error: true,
+          errorMessage: 'Password should have at least 8 characters',
+        }))
+  }
   return (
     <div>
       Sign Up Page
@@ -20,13 +71,11 @@ const SignUpPage = () => {
             data-testid="email-input"
             placeholder="이메일을 입력해주세요"
             value={email.email}
-            onChange={(e) => {
-              setEmail((prev) => ({ ...prev, email: e.target.value }))
-            }}
+            onChange={handleEmailChange}
             required
             pattern="@{1}"
           />
-          <div className="validation-note">{email.error}</div>
+          <div className="validation-note">{email.errorMessage}</div>
         </label>
         <label htmlFor="password" title="password 입력란">
           <input
@@ -36,12 +85,10 @@ const SignUpPage = () => {
             data-testid="password-input"
             placeholder="비밀번호를 입력해주세요"
             value={password.password}
-            onChange={(e) =>
-              setPassword((prev) => ({ ...prev, password: e.target.value }))
-            }
+            onChange={handlePasswordChange}
             required
           />
-          <div className="validation-note">{password.error}</div>
+          <div className="validation-note">{password.errorMessage}</div>
         </label>
         <button
           type="button"
