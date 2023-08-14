@@ -1,4 +1,6 @@
 import { ChangeEvent, useState } from 'react'
+import { Navigate } from 'react-router-dom'
+import { postSignup } from './api'
 
 interface ErrorState {
   error: boolean
@@ -22,7 +24,23 @@ const SignUpPage = () => {
     error: false,
     errorMessage: '',
   })
+  const [userSignedUp, setUserSignedUp] = useState(false)
+
   const isSubmittable = !email.error && !password.error
+
+  const postSignupRequest = async () => {
+    const res = await postSignup({
+      email: email.email,
+      password: password.password,
+    })
+    if (!res.error) {
+      alert('회원가입 성공')
+      setUserSignedUp(true)
+    } else {
+      alert(`회원가입에 실패했습니다 다시 시도해주세요 : ${res.body}`)
+    }
+    return res
+  }
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     const regExp = new RegExp('[@]')
@@ -59,8 +77,10 @@ const SignUpPage = () => {
           errorMessage: 'Password should have at least 8 characters',
         }))
   }
+
   return (
     <div>
+      {userSignedUp && <Navigate to="/signin" />}
       Sign Up Page
       <form>
         <label htmlFor="email" title="email 입력란">
@@ -94,8 +114,9 @@ const SignUpPage = () => {
           type="button"
           data-testid="signup-button"
           disabled={!isSubmittable}
+          onClick={postSignupRequest}
         >
-          submit
+          Sign Up
         </button>
       </form>
     </div>
