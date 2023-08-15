@@ -1,5 +1,4 @@
 import {
-  Dispatch,
   PropsWithChildren,
   createContext,
   useContext,
@@ -8,29 +7,45 @@ import {
 } from 'react'
 
 type AuthState = {
-  userState: { auth: boolean; token: string }
-  setUserState: Dispatch<
-    React.SetStateAction<{
-      auth: boolean
-      token: string
-    }>
-  >
+  userState: { auth: boolean }
+  signinUser: (token: string) => void
+  signoutUser: () => void
+  checkUserAuth: () => boolean
 }
 
-export const AuthContext = createContext<AuthState | null>(null)
+const AuthContext = createContext<AuthState | null>(null)
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
-  const [userState, setUserState] = useState({ auth: false, token: '' })
+  const [userState, setUserState] = useState({ auth: false })
+
+  const getAccessToken = () => {
+    const accessToken = localStorage.getItem('access_token')
+    return accessToken ? accessToken : null
+  }
+
+  const signinUser = (token: string) => {
+    localStorage.setItem('access_token', token)
+    setUserState(() => ({ auth: true }))
+  }
+
+  const signoutUser = () => {
+    localStorage.removeItem('access_token')
+    setUserState(() => ({ auth: false }))
+  }
+
+  const checkUserAuth = () => {
+    const accessToken = getAccessToken()
+    return accessToken !== null && accessToken.length > 0 && userState.auth
+  }
 
   useEffect(() => {
-    const accessToken = localStorage.getItem('access_token')
-    accessToken
-      ? setUserState((prev) => ({ ...prev, auth: true, token: accessToken }))
-      : ''
+    getAccessToken() ? setUserState(() => ({ auth: true })) : ''
   }, [])
 
   return (
-    <AuthContext.Provider value={{ userState, setUserState }}>
+    <AuthContext.Provider
+      value={{ userState, signinUser, signoutUser, checkUserAuth }}
+    >
       {children}
     </AuthContext.Provider>
   )

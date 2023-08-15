@@ -1,5 +1,11 @@
+import { Navigate } from 'react-router-dom'
+import { useAuthState } from '../AuthProvider'
+
 const TodoPage = () => {
-  return <div>TodoPage</div>
+  const { userState } = useAuthState()
+  return (
+    <>{!userState.auth ? <Navigate to="/signin" /> : <div>TodoPage</div>}</>
+  )
 }
 
 export default TodoPage
