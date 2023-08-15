@@ -5,17 +5,25 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import App from './App'
 import SignUpPage from './pages/SignUpPage'
 import SignInPage from './pages/SignInPage'
+import TodoPage from './pages/TodoPage'
+import { AuthProvider } from './AuthProvider'
 
 const router = createBrowserRouter([
   { path: '/', element: <App /> },
-  { path: '/signup', element: <SignUpPage /> },
+  {
+    path: '/signup',
+    element: <SignUpPage />,
+  },
   { path: '/signin', element: <SignInPage /> },
+  { path: '/todo', element: <TodoPage /> },
 ])
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>
 )
 
