@@ -80,50 +80,53 @@ const SignInPage = () => {
   }
   return (
     <>
-      {userState.auth && <Navigate to="/todo" />}
-      <div>
-        Sign In Page
-        <form>
-          <label htmlFor="email" title="email 입력란">
-            <input
-              id="email"
-              name="user_email"
-              type="email"
-              data-testid="email-input"
-              placeholder="이메일을 입력해주세요"
-              value={email.email}
-              onChange={handleEmailChange}
-              required
-              pattern="@{1}"
-            />
-            <div className="validation-note">{email.errorMessage}</div>
-          </label>
-          <label htmlFor="password" title="password 입력란">
-            <input
-              id="password"
-              name="user_password"
-              type="password"
-              data-testid="password-input"
-              placeholder="비밀번호를 입력해주세요"
-              value={password.password}
-              onChange={handlePasswordChange}
-              required
-            />
-            <div className="validation-note">{password.errorMessage}</div>
-          </label>
-          <button
-            type="button"
-            data-testid="signin-button"
-            disabled={!isSubmittable}
-            onClick={postSigninRequest}
-          >
-            Sign In
-          </button>
-          <div>
-            <Link to={'/signup'}>go to Sign Up</Link>
-          </div>
-        </form>
-      </div>
+      {userState.auth ? (
+        <Navigate to="/todo" />
+      ) : (
+        <div>
+          Sign In Page
+          <form>
+            <label htmlFor="email" title="email 입력란">
+              <input
+                id="email"
+                name="user_email"
+                type="email"
+                data-testid="email-input"
+                placeholder="이메일을 입력해주세요"
+                value={email.email}
+                onChange={handleEmailChange}
+                required
+                pattern="@{1}"
+              />
+              <div className="validation-note">{email.errorMessage}</div>
+            </label>
+            <label htmlFor="password" title="password 입력란">
+              <input
+                id="password"
+                name="user_password"
+                type="password"
+                data-testid="password-input"
+                placeholder="비밀번호를 입력해주세요"
+                value={password.password}
+                onChange={handlePasswordChange}
+                required
+              />
+              <div className="validation-note">{password.errorMessage}</div>
+            </label>
+            <button
+              type="button"
+              data-testid="signin-button"
+              disabled={!isSubmittable}
+              onClick={postSigninRequest}
+            >
+              Sign In
+            </button>
+            <div>
+              <Link to={'/signup'}>go to Sign Up</Link>
+            </div>
+          </form>
+        </div>
+      )}
     </>
   )
 }
