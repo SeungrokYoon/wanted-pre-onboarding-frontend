@@ -1,6 +1,7 @@
 import { ChangeEvent, useState } from 'react'
 import { postSignin } from './api'
 import { Link, Navigate } from 'react-router-dom'
+import { useAuthState } from '../AuthProvider'
 
 interface ErrorState {
   error: boolean
@@ -14,6 +15,7 @@ interface PasswordState extends ErrorState {
 }
 
 const SignInPage = () => {
+  const { userState, setUserState } = useAuthState()
   const [email, setEmail] = useState<EmailState>({
     email: '',
     error: false,
@@ -24,7 +26,6 @@ const SignInPage = () => {
     error: false,
     errorMessage: '',
   })
-  const [signedIn, setSignedIn] = useState(false)
   const isSubmittable = !email.error && !password.error
 
   const postSigninRequest = async () => {
@@ -35,7 +36,7 @@ const SignInPage = () => {
     if (!res.error) {
       alert('로그인 성공')
       localStorage.setItem('access_token', res.body)
-      setSignedIn(true)
+      setUserState((prev) => ({ ...prev, auth: true, token: res.body }))
     } else {
       alert(`로그인 실패: ${res.body}`)
     }
@@ -79,7 +80,7 @@ const SignInPage = () => {
   }
   return (
     <>
-      {signedIn && <Navigate to="/todo" />}
+      {userState.auth && <Navigate to="/todo" />}
       <div>
         Sign In Page
         <form>
