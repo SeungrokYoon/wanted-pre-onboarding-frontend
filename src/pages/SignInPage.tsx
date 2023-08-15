@@ -15,7 +15,7 @@ interface PasswordState extends ErrorState {
 }
 
 const SignInPage = () => {
-  const { userState, setUserState } = useAuthState()
+  const { signinUser, checkUserAuth } = useAuthState()
   const [email, setEmail] = useState<EmailState>({
     email: '',
     error: false,
@@ -35,8 +35,7 @@ const SignInPage = () => {
     })
     if (!res.error) {
       alert('로그인 성공')
-      localStorage.setItem('access_token', res.body)
-      setUserState((prev) => ({ ...prev, auth: true, token: res.body }))
+      signinUser(res.body)
     } else {
       alert(`로그인 실패: ${res.body}`)
     }
@@ -80,7 +79,7 @@ const SignInPage = () => {
   }
   return (
     <>
-      {userState.auth ? (
+      {checkUserAuth() ? (
         <Navigate to="/todo" />
       ) : (
         <div>

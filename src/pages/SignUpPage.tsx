@@ -25,7 +25,7 @@ const SignUpPage = () => {
     error: false,
     errorMessage: '',
   })
-  const { userState } = useAuthState()
+  const { checkUserAuth } = useAuthState()
   const navigate = useNavigate()
 
   const isSubmittable = !email.error && !password.error
@@ -82,7 +82,7 @@ const SignUpPage = () => {
 
   return (
     <>
-      {userState.auth ? (
+      {checkUserAuth() ? (
         <Navigate to="/todo" />
       ) : (
         <div>
