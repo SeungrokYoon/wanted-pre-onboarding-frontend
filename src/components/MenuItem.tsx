@@ -1,34 +1,35 @@
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router-dom'
 
-interface NavigateButtonType {
+interface MenuItemType {
   to: string
   text: string
 }
 
-const NavigateButton = ({ to, text }: NavigateButtonType) => {
+const MenuItem = ({ to, text }: MenuItemType) => {
   const navigate = useNavigate()
   return (
-    <Button
-      type="button"
+    <Li
       onClick={() => {
         navigate(to)
       }}
     >
       {text}
-    </Button>
+    </Li>
   )
 }
 
-export default NavigateButton
+export default MenuItem
 
-const Button = styled.button`
-  width: 100%;
+const Li = styled.li`
+  display: flex;
+  align-items: center;
   height: 40px;
   padding: 10px auto;
   color: ${(props) => props.theme.colors.primary_white};
   font-weight: 500;
   border-radius: 10px;
   background-color: ${(props) => props.theme.colors.primary_black_01};
+  list-style: none;
   cursor: pointer;
 `
