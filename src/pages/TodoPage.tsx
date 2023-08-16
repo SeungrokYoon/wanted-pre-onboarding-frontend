@@ -2,14 +2,28 @@ import { Navigate } from 'react-router-dom'
 import { useAuthState } from '../AuthProvider'
 import styled from '@emotion/styled'
 import Todo from '../components/Todo'
+import { useEffect, useState } from 'react'
+import { TodoType, getTodo } from './api'
 
 const TodoPage = () => {
   const { userState } = useAuthState()
-  const dummyTodos = new Array(30).fill(0).map((v, i) => ({
-    id: i + 1,
-    todo: `Test todo ${i + 1}`,
-    isCompleted: v % 2 ? true : false,
-  }))
+  const [todos, setTodos] = useState<TodoType[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [isError, setIsError] = useState('')
+
+  const getTodoRequest = async () => {
+    const res = await getTodo()
+    if (res.statusCode === 200) {
+      setTodos(() => res.body as TodoType[])
+    } else {
+      setIsError(res.body as string)
+    }
+    setIsLoading(false)
+  }
+
+  useEffect(() => {
+    getTodoRequest()
+  }, [])
 
   return (
     <>
@@ -19,9 +33,13 @@ const TodoPage = () => {
         <Section>
           <Title>TodoPage</Title>
           <TodoList>
-            {dummyTodos.map(({ id, todo, isCompleted }) => (
-              <Todo key={id} text={todo} completed={isCompleted} />
-            ))}
+            {isLoading && <div>Loading</div>}
+            {isError && <div>{isError}</div>}
+            {!isLoading &&
+              !isError &&
+              todos.map(({ id, todo, isCompleted }) => (
+                <Todo key={id} text={todo} completed={isCompleted} />
+              ))}
           </TodoList>
         </Section>
       )}
