@@ -8,7 +8,9 @@ import SignUpPage from './pages/SignUpPage'
 import SignInPage from './pages/SignInPage'
 import TodoPage from './pages/TodoPage'
 import { AuthProvider } from './AuthProvider'
-import GlobalStyles from './GlobalStyles'
+import GlobalStyles from './styles/GlobalStyles'
+import { ThemeProvider } from '@emotion/react'
+import { theme } from './styles/theme'
 
 const router = createBrowserRouter([
   {
@@ -31,7 +33,9 @@ root.render(
   <React.StrictMode>
     <AuthProvider>
       <GlobalStyles />
-      <RouterProvider router={router} />
+      <ThemeProvider theme={theme}>
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </AuthProvider>
   </React.StrictMode>
 )

@@ -8,8 +8,9 @@ const PageLayout = ({ children }: PropsWithChildren) => {
 export default PageLayout
 
 const Main = styled.main`
-  min-height: calc(100% - 5rem - 50px);
+  height: calc(100% - 5rem - 50px);
   padding-top: 5rem;
   padding-left: 1rem;
   padding-right: 1rem;
+  overflow-y: auto;
 `
