@@ -2,7 +2,7 @@ import { Navigate } from 'react-router-dom'
 import { useAuthState } from '../AuthProvider'
 import styled from '@emotion/styled'
 import { useEffect, useState } from 'react'
-import { TodoType, createTodo, getTodo } from './api'
+import { TodoType, createTodo, getTodo, updateTodo } from './api'
 import Todo from '../components/Todo'
 
 const TodoPage = () => {
@@ -26,6 +26,28 @@ const TodoPage = () => {
     const res = await createTodo(todo)
     if (res.statusCode === 200) {
       setTodos((prev) => [...prev].concat(res.body as TodoType[]))
+    } else {
+      setIsError(res.body as string)
+    }
+    setIsLoading(false)
+  }
+
+  const updateTodoRequest = async (
+    todoId: number,
+    todo: string,
+    isCompleted: boolean
+  ) => {
+    const res = await updateTodo(todoId, todo, isCompleted)
+    if (res.statusCode === 200) {
+      const updatedTodo = res.body[0] as TodoType
+      setTodos((prev) =>
+        [...prev].map((todo) => {
+          if (todo.id === updatedTodo.id) {
+            return { ...todo, ...updatedTodo }
+          }
+          return todo
+        })
+      )
     } else {
       setIsError(res.body as string)
     }
@@ -58,7 +80,13 @@ const TodoPage = () => {
         <button type="button"></button>
         <TodoListUl>
           {todos.map(({ id, todo, isCompleted, userId }) => (
-            <Todo key={`${userId}-${id}`} text={todo} completed={isCompleted} />
+            <Todo
+              key={`${userId}-${id}`}
+              id={id}
+              text={todo}
+              completed={isCompleted}
+              handleUpdate={updateTodoRequest}
+            />
           ))}
         </TodoListUl>
       </div>
