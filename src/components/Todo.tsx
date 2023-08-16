@@ -17,6 +17,8 @@ const Todo = ({
   handleDelete,
 }: TodoProps) => {
   const [isCompleted, setIsCompleted] = useState(completed)
+  const [isEditable, setIsEditable] = useState(false)
+  const [editText, setEditText] = useState(text)
 
   return (
     <Li>
@@ -29,20 +31,60 @@ const Todo = ({
             setIsCompleted((prev) => !prev)
           }}
         />
-        <span>{text}</span>
+        {!isEditable ? (
+          <span>{text}</span>
+        ) : (
+          <input
+            type="text"
+            data-testid="modify-input"
+            value={editText}
+            onChange={(e) => setEditText(e.target.value)}
+          />
+        )}
       </label>
-      <ButtonContainer>
-        <button type="button" data-testid="modify-button">
-          수정
-        </button>
-        <button
-          type="button"
-          data-testid="delete-button"
-          onClick={() => handleDelete(id)}
-        >
-          삭제
-        </button>
-      </ButtonContainer>
+      {!isEditable ? (
+        <ButtonContainer>
+          <button
+            type="button"
+            data-testid="modify-button"
+            onClick={() => {
+              setIsEditable(true)
+            }}
+          >
+            수정
+          </button>
+          <button
+            type="button"
+            data-testid="delete-button"
+            onClick={() => handleDelete(id)}
+          >
+            삭제
+          </button>
+        </ButtonContainer>
+      ) : (
+        <ButtonContainer>
+          <button
+            type="button"
+            data-testid="submit-button"
+            onClick={() => {
+              handleUpdate(id, editText, isCompleted)
+              setIsEditable(false)
+            }}
+          >
+            제출
+          </button>
+          <button
+            type="button"
+            data-testid="cancel-button"
+            onClick={() => {
+              setEditText(text)
+              setIsEditable(false)
+            }}
+          >
+            취소
+          </button>
+        </ButtonContainer>
+      )}
     </Li>
   )
 }
