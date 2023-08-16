@@ -12,6 +12,7 @@ const API_URL = {
   signup: '/auth/signup',
   signin: '/auth/signin',
   getTodo: '/todos',
+  createTodo: '/todos',
 }
 
 const postSignupData = async (url: string, data: PostDataType) => {
@@ -110,4 +111,32 @@ const getTodo = async (): Promise<GetTodoReturnType> => {
   }
 }
 
-export { API_URL, postSignup, postSignin, getTodo }
+type PostTodoReturnType = GetTodoReturnType
+
+const createTodo = async (todo: string): Promise<PostTodoReturnType> => {
+  try {
+    const parsedUrl = BASE_API_URL + API_URL.createTodo
+    const accessToken = localStorage.getItem('access_token')
+    const response = await fetch(parsedUrl, {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ todo }),
+    })
+    if (!response.ok) {
+      throw new Error('Error occurred while posting data!')
+    }
+    const body = await response.json()
+    return { statusCode: 200, body: [body], error: false }
+  } catch (e) {
+    let message = 'Unknown Error'
+    if (e instanceof Error) message = e.message
+    console.error(e)
+    return { statusCode: 400, body: message, error: true }
+  }
+}
+
+export { API_URL, postSignup, postSignin, getTodo, createTodo }
