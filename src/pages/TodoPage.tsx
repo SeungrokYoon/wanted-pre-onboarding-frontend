@@ -2,7 +2,7 @@ import { Navigate } from 'react-router-dom'
 import { useAuthState } from '../AuthProvider'
 import styled from '@emotion/styled'
 import { useEffect, useState } from 'react'
-import { TodoType, createTodo, getTodo, updateTodo } from './api'
+import { TodoType, createTodo, deleteTodo, getTodo, updateTodo } from './api'
 import Todo from '../components/Todo'
 
 const TodoPage = () => {
@@ -24,7 +24,7 @@ const TodoPage = () => {
 
   const createTodoRequest = async (todo: string) => {
     const res = await createTodo(todo)
-    if (res.statusCode === 200) {
+    if (res.statusCode === 201) {
       setTodos((prev) => [...prev].concat(res.body as TodoType[]))
     } else {
       setIsError(res.body as string)
@@ -48,6 +48,16 @@ const TodoPage = () => {
           return todo
         })
       )
+    } else {
+      setIsError(res.body as string)
+    }
+    setIsLoading(false)
+  }
+
+  const deleteTodoRequest = async (todoId: number) => {
+    const res = await deleteTodo(todoId)
+    if (res.statusCode === 204) {
+      setTodos((prev) => [...prev].filter((todo) => todo.id !== todoId))
     } else {
       setIsError(res.body as string)
     }
@@ -86,6 +96,7 @@ const TodoPage = () => {
               text={todo}
               completed={isCompleted}
               handleUpdate={updateTodoRequest}
+              handleDelete={deleteTodoRequest}
             />
           ))}
         </TodoListUl>

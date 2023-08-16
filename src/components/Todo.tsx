@@ -6,9 +6,16 @@ interface TodoProps {
   text: string
   completed: boolean
   handleUpdate: (todoId: number, todo: string, isCompleted: boolean) => void
+  handleDelete: (todoId: number) => void
 }
 
-const Todo = ({ id, text, completed, handleUpdate }: TodoProps) => {
+const Todo = ({
+  id,
+  text,
+  completed,
+  handleUpdate,
+  handleDelete,
+}: TodoProps) => {
   const [isCompleted, setIsCompleted] = useState(completed)
 
   return (
@@ -28,7 +35,11 @@ const Todo = ({ id, text, completed, handleUpdate }: TodoProps) => {
         <button type="button" data-testid="modify-button">
           수정
         </button>
-        <button type="button" data-testid="delete-button">
+        <button
+          type="button"
+          data-testid="delete-button"
+          onClick={() => handleDelete(id)}
+        >
           삭제
         </button>
       </ButtonContainer>
