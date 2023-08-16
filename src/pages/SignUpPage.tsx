@@ -37,7 +37,7 @@ const SignUpPage = () => {
     })
     if (!res.error) {
       alert('회원가입 성공')
-      navigate('/todo', { state: '' })
+      navigate('/signin', { state: '' })
     } else {
       alert(`회원가입에 실패했습니다 다시 시도해주세요 : ${res.body}`)
     }
