@@ -26,6 +26,7 @@ const TodoPage = () => {
     const res = await createTodo(todo)
     if (res.statusCode === 201) {
       setTodos((prev) => [...prev].concat(res.body as TodoType[]))
+      setNewTodo('')
     } else {
       setIsError(res.body as string)
     }
