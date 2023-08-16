@@ -35,8 +35,10 @@ const NavBar = () => {
 export default NavBar
 
 const Header = styled.header`
-  width: 100vw;
+  position: fixed;
+  top: 0;
+  width: 100%;
   height: 5rem;
   padding: 0.25rem 1rem;
-  background-color: 27282D;
+  background-color: #27282d;
 `

@@ -85,7 +85,7 @@ const SignUpPage = () => {
       {checkUserAuth() ? (
         <Navigate to="/todo" />
       ) : (
-        <div>
+        <section>
           Sign Up Page
           <form>
             <label htmlFor="email" title="email 입력란">
@@ -124,7 +124,7 @@ const SignUpPage = () => {
               Sign Up
             </button>
           </form>
-        </div>
+        </section>
       )}
     </>
   )

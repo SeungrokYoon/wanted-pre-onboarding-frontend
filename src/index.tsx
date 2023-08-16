@@ -8,6 +8,7 @@ import SignUpPage from './pages/SignUpPage'
 import SignInPage from './pages/SignInPage'
 import TodoPage from './pages/TodoPage'
 import { AuthProvider } from './AuthProvider'
+import GlobalStyles from './GlobalStyles'
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,7 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
     <AuthProvider>
+      <GlobalStyles />
       <RouterProvider router={router} />
     </AuthProvider>
   </React.StrictMode>

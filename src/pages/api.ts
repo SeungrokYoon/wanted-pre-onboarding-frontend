@@ -11,6 +11,7 @@ type PostDataReturnType = { status: number; body: string; error: boolean }
 const API_URL = {
   signup: '/auth/signup',
   signin: '/auth/signin',
+  getTodo: '/todos',
 }
 
 const postSignupData = async (url: string, data: PostDataType) => {
@@ -72,4 +73,41 @@ const postSignin = async (data: AuthBodyType): Promise<PostDataReturnType> => {
   }
 }
 
-export { API_URL, postSignup, postSignin }
+export type GetTodoReturnType = {
+  statusCode: number
+  body: TodoType[] | string
+  error: boolean
+}
+export type TodoType = {
+  id: number
+  todo: string
+  isCompleted: boolean
+  userId: number
+}
+
+const getTodo = async (): Promise<GetTodoReturnType> => {
+  try {
+    const parsedUrl = BASE_API_URL + API_URL.getTodo
+    const accessToken = localStorage.getItem('access_token')
+    const response = await fetch(parsedUrl, {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+    if (!response.ok) {
+      throw new Error('Error occurred while fetching data!')
+    }
+    const body = await response.json()
+    return { statusCode: 200, body, error: false }
+  } catch (e) {
+    let message = 'Unknown Error'
+    if (e instanceof Error) message = e.message
+    console.error(e)
+    return { statusCode: 400, body: message, error: true }
+  }
+}
+
+export { API_URL, postSignup, postSignin, getTodo }
