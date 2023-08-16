@@ -5,18 +5,23 @@ interface TodoProps {
   id: number
   text: string
   completed: boolean
+  isEditable: boolean
   handleUpdate: (todoId: number, todo: string, isCompleted: boolean) => void
   handleDelete: (todoId: number) => void
+  handleEditable: (todoId: number | null) => void
 }
 
 const Todo = ({
   id,
   text,
   completed,
+  isEditable,
   handleUpdate,
   handleDelete,
+  handleEditable,
 }: TodoProps) => {
   const [isCompleted, setIsCompleted] = useState(completed)
+  const [editText, setEditText] = useState(text)
 
   return (
     <Li>
@@ -29,20 +34,69 @@ const Todo = ({
             setIsCompleted((prev) => !prev)
           }}
         />
-        <span>{text}</span>
+        {!isEditable ? (
+          <span>{text}</span>
+        ) : (
+          <input
+            type="text"
+            data-testid="modify-input"
+            value={editText}
+            onChange={(e) => setEditText(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                handleUpdate(id, editText, isCompleted)
+                handleEditable(null)
+              } else if (e.key === 'Escape') {
+                setEditText(text)
+                handleEditable(null)
+              }
+            }}
+          />
+        )}
       </label>
-      <ButtonContainer>
-        <button type="button" data-testid="modify-button">
-          수정
-        </button>
-        <button
-          type="button"
-          data-testid="delete-button"
-          onClick={() => handleDelete(id)}
-        >
-          삭제
-        </button>
-      </ButtonContainer>
+      {!isEditable ? (
+        <ButtonContainer>
+          <button
+            type="button"
+            data-testid="modify-button"
+            onClick={() => {
+              handleEditable(id)
+            }}
+          >
+            수정
+          </button>
+          <button
+            type="button"
+            data-testid="delete-button"
+            onClick={() => handleDelete(id)}
+          >
+            삭제
+          </button>
+        </ButtonContainer>
+      ) : (
+        <ButtonContainer>
+          <button
+            type="button"
+            data-testid="submit-button"
+            onClick={() => {
+              handleUpdate(id, editText, isCompleted)
+              handleEditable(null)
+            }}
+          >
+            제출
+          </button>
+          <button
+            type="button"
+            data-testid="cancel-button"
+            onClick={() => {
+              setEditText(text)
+              handleEditable(null)
+            }}
+          >
+            취소
+          </button>
+        </ButtonContainer>
+      )}
     </Li>
   )
 }
