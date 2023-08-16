@@ -11,6 +11,7 @@ const TodoPage = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [isError, setIsError] = useState('')
   const [newTodo, setNewTodo] = useState('')
+  const [focusedTodoId, setFocusedTodoId] = useState<number | null>(null)
 
   const getTodoRequest = async () => {
     const res = await getTodo()
@@ -101,8 +102,12 @@ const TodoPage = () => {
               id={id}
               text={todo}
               completed={isCompleted}
+              isEditable={focusedTodoId === id}
               handleUpdate={updateTodoRequest}
               handleDelete={deleteTodoRequest}
+              handleEditable={(id: number | null) => {
+                setFocusedTodoId(id)
+              }}
             />
           ))}
         </TodoListUl>

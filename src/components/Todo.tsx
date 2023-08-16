@@ -5,19 +5,22 @@ interface TodoProps {
   id: number
   text: string
   completed: boolean
+  isEditable: boolean
   handleUpdate: (todoId: number, todo: string, isCompleted: boolean) => void
   handleDelete: (todoId: number) => void
+  handleEditable: (todoId: number | null) => void
 }
 
 const Todo = ({
   id,
   text,
   completed,
+  isEditable,
   handleUpdate,
   handleDelete,
+  handleEditable,
 }: TodoProps) => {
   const [isCompleted, setIsCompleted] = useState(completed)
-  const [isEditable, setIsEditable] = useState(false)
   const [editText, setEditText] = useState(text)
 
   return (
@@ -48,7 +51,7 @@ const Todo = ({
             type="button"
             data-testid="modify-button"
             onClick={() => {
-              setIsEditable(true)
+              handleEditable(id)
             }}
           >
             수정
@@ -68,7 +71,7 @@ const Todo = ({
             data-testid="submit-button"
             onClick={() => {
               handleUpdate(id, editText, isCompleted)
-              setIsEditable(false)
+              handleEditable(null)
             }}
           >
             제출
@@ -78,7 +81,7 @@ const Todo = ({
             data-testid="cancel-button"
             onClick={() => {
               setEditText(text)
-              setIsEditable(false)
+              handleEditable(null)
             }}
           >
             취소
