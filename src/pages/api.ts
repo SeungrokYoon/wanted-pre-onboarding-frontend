@@ -13,7 +13,7 @@ const API_URL = {
   signin: '/auth/signin',
   getTodo: '/todos',
   createTodo: '/todos',
-  updateTodo: '/todos',
+  updateTodo: (id: number) => `/todos/${id}`,
   deleteTodo: (id: number) => `/todos/${id}`,
 }
 
@@ -147,7 +147,7 @@ const updateTodo = async (
   isCompleted: boolean
 ): Promise<PostTodoReturnType> => {
   try {
-    const parsedUrl = BASE_API_URL + API_URL.updateTodo + `/${todoId}`
+    const parsedUrl = BASE_API_URL + API_URL.updateTodo(todoId)
     const accessToken = localStorage.getItem('access_token')
     const response = await fetch(parsedUrl, {
       method: 'PUT',
