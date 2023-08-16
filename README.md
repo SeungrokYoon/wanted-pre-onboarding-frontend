@@ -1,46 +1,45 @@
-# Getting Started with Create React App
+# Wanted Pre-onboarding Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 지원자
 
-## Available Scripts
+- 이름 : 윤승록
+- 기술 블로그 : [Velog](https://velog.io/@seungrok-yoon/series)
 
-In the project directory, you can run:
+## 프로젝트 소개
 
-### `npm start`
+[원티드 프리온보딩 프론트엔드 - 선발 과제](https://github.com/walking-sunset/selection-task) 내용을 구현한 Todolist 프로젝트입니다.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 페이지 구성
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- 회원가입 : `/signup`
+- 로그인 :`/signin`
+- 투두리스트: `/todo`
 
-### `npm test`
+### 구현 기능
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+링크 클릭 시 해당 PR로 이동합니다.
 
-### `npm run build`
+- [Assignment 1 - 로그인, 회원가입 페이지 유효성 검사](https://github.com/SeungrokYoon/wanted-pre-onboarding-frontend/pull/3)
+- [Assignment 2- 회원가입 후 로그인 페이지로 이동](https://github.com/SeungrokYoon/wanted-pre-onboarding-frontend/pull/3)
+- [Assignment 3 - 로그인 진행 후 Todo 페이지로 경로 이동](https://github.com/SeungrokYoon/wanted-pre-onboarding-frontend/pull/3)
+- [Assignment 4 - 로그인 여부에 따른 리다이렉트 처리](https://github.com/SeungrokYoon/wanted-pre-onboarding-frontend/pull/3)
+- [Assignment 5 - 투두리스트 목록 보여주기](https://github.com/SeungrokYoon/wanted-pre-onboarding-frontend/pull/3)
+- [Assignment 6 - 새로운 투두 추가하기](https://github.com/SeungrokYoon/wanted-pre-onboarding-frontend/pull/3)
+- [Assignment 7 - 투두 완료상태 토글하기](https://github.com/SeungrokYoon/wanted-pre-onboarding-frontend/pull/3)
+- [Assignment 8 - 투두 수정, 삭제버튼 추가](https://github.com/SeungrokYoon/wanted-pre-onboarding-frontend/pull/3)
+- [Assignment 9 - 투두 삭제기능](https://github.com/SeungrokYoon/wanted-pre-onboarding-frontend/pull/3)
+- [Assignment 10 - 투두 수정기능](https://github.com/SeungrokYoon/wanted-pre-onboarding-frontend/pull/3)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 프로젝트 실행 방법
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+프로젝트 클론 후,
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```js
+npm install & npm start
+```
 
-### `npm run eject`
+명령어를 통해 로컬 환경에서 실행이 가능합니다.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## 배포 링크 (데모 영상)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- 배포된 프로젝트는 [여기](https://delightful-biscuit-af7f61.netlify.app)에서 테스트 가능합니다.
