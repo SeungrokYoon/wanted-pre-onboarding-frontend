@@ -13,6 +13,7 @@ const API_URL = {
   signin: '/auth/signin',
   getTodo: '/todos',
   createTodo: '/todos',
+  updateTodo: '/todos',
 }
 
 const postSignupData = async (url: string, data: PostDataType) => {
@@ -139,4 +140,34 @@ const createTodo = async (todo: string): Promise<PostTodoReturnType> => {
   }
 }
 
-export { API_URL, postSignup, postSignin, getTodo, createTodo }
+const updateTodo = async (
+  todoId: number,
+  todo: string,
+  isCompleted: boolean
+): Promise<PostTodoReturnType> => {
+  try {
+    const parsedUrl = BASE_API_URL + API_URL.updateTodo + `/${todoId}`
+    const accessToken = localStorage.getItem('access_token')
+    const response = await fetch(parsedUrl, {
+      method: 'PUT',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ todo, isCompleted }),
+    })
+    if (!response.ok) {
+      throw new Error('Error occurred while updating data!')
+    }
+    const body = await response.json()
+    return { statusCode: 200, body: [body], error: false }
+  } catch (e) {
+    let message = 'Unknown Error'
+    if (e instanceof Error) message = e.message
+    console.error(e)
+    return { statusCode: 400, body: message, error: true }
+  }
+}
+
+export { API_URL, postSignup, postSignin, getTodo, createTodo, updateTodo }
