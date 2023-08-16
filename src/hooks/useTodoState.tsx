@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   TodoType,
   createTodo,
@@ -74,6 +74,10 @@ const useTodoState = () => {
     }
     setIsLoading(false)
   }
+
+  useEffect(() => {
+    getTodoRequest()
+  }, [])
 
   return {
     todos,
