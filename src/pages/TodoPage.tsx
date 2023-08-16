@@ -87,6 +87,11 @@ const TodoPage = () => {
           placeholder="새로운 할 일"
           value={newTodo}
           onChange={(e) => setNewTodo(() => e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              createTodoRequest(newTodo)
+            }
+          }}
         />
         <button
           data-testid="new-todo-add-button"

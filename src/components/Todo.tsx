@@ -42,6 +42,15 @@ const Todo = ({
             data-testid="modify-input"
             value={editText}
             onChange={(e) => setEditText(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                handleUpdate(id, editText, isCompleted)
+                handleEditable(null)
+              } else if (e.key === 'Escape') {
+                setEditText(text)
+                handleEditable(null)
+              }
+            }}
           />
         )}
       </label>
