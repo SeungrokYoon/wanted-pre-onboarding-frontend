@@ -23,6 +23,11 @@ const TodoPage = () => {
   }
 
   const createTodoRequest = async (todo: string) => {
+    if (!todo.length) {
+      alert('Todo string is empty!')
+      setIsLoading(false)
+      return
+    }
     const res = await createTodo(todo)
     if (res.statusCode === 201) {
       setTodos((prev) => [...prev].concat(res.body as TodoType[]))
