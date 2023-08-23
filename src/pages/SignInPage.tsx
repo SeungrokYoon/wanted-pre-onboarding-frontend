@@ -80,7 +80,7 @@ const SignInPage = () => {
   return (
     <>
       {checkUserAuth() ? (
-        <Navigate to="/todo" />
+        <Navigate to="/todo" replace />
       ) : (
         <section>
           Sign In Page
