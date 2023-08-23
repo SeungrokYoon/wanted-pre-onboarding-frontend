@@ -6,7 +6,7 @@ import TodoList from '../components/TodoList'
 const TodoPage = () => {
   const { userState } = useAuthState()
 
-  if (!userState.auth) return <Navigate to="/signin" />
+  if (!userState.auth) return <Navigate to="/signin" replace />
   return (
     <Section>
       <Title>TodoPage</Title>

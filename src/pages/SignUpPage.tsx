@@ -83,7 +83,7 @@ const SignUpPage = () => {
   return (
     <>
       {checkUserAuth() ? (
-        <Navigate to="/todo" />
+        <Navigate to="/todo" replace />
       ) : (
         <section>
           Sign Up Page
