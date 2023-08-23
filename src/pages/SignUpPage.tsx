@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
-import { postSignup } from './api'
+import { postSignup } from '../utils/api'
 import { useAuthState } from '../AuthProvider'
 
 interface ErrorState {
