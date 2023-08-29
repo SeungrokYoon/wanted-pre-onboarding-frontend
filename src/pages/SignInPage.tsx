@@ -10,7 +10,6 @@ import { UNKNOWN_ERROR } from '../utils/instance'
 const SignInPage = () => {
   const { checkUserAuth, signinUser } = useAuthState()
   const [error, setError] = useState({
-    error: false,
     message: '',
   })
 
@@ -22,13 +21,11 @@ const SignInPage = () => {
       .catch((err) => {
         if (isAxiosError<SigninResponse>(error)) {
           setError({
-            error: true,
             message: error.message,
           })
           return
         }
         setError({
-          error: true,
           message: UNKNOWN_ERROR.message,
         })
         console.error(err)

@@ -10,7 +10,6 @@ const SignUpPage = () => {
   const { checkUserAuth } = useAuthState()
   const navigate = useNavigate()
   const [error, setError] = useState({
-    error: false,
     message: '',
   })
 
@@ -23,13 +22,11 @@ const SignUpPage = () => {
       .catch((err) => {
         if (isAxiosError<SigninResponse>(error)) {
           setError({
-            error: true,
             message: error.message,
           })
           return
         }
         setError({
-          error: true,
           message: UNKNOWN_ERROR.message,
         })
         console.error(err)
