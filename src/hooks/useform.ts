@@ -1,9 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useAuthState } from '../AuthProvider'
-import { signinRequest, signupRequest } from '../api/auth'
 
-export type FormModeType = 'signin' | 'signup'
 export type UseForm = null
 
 interface ErrorState {
@@ -22,14 +18,10 @@ export interface FormContext {
   password: PasswordState
   onChangeEmail: (e: React.ChangeEvent<HTMLInputElement>) => void
   onChangePassword: (e: React.ChangeEvent<HTMLInputElement>) => void
-  sendData: () => void
   isSubmittable: boolean
 }
 
-const useForm = (mode: FormModeType) => {
-  const navigate = useNavigate()
-  const { signinUser } = useAuthState()
-
+const useForm = () => {
   const [email, setEmail] = useState<EmailState>({
     email: '',
     error: false,
@@ -77,41 +69,11 @@ const useForm = (mode: FormModeType) => {
         }))
   }
 
-  const sendData = () => {
-    const data = {
-      email: email.email,
-      password: password.password,
-    }
-    if (mode === 'signup') {
-      signupRequest(data)
-        .then(() => {
-          alert('회원가입 완료!')
-          navigate('/signin')
-        })
-        .catch((err) => {
-          const message = err.response.data.message
-          alert(message)
-          console.error(err)
-        })
-    } else {
-      signinRequest(data)
-        .then((res) => {
-          signinUser(res.data.access_token)
-        })
-        .catch((err) => {
-          const message = err.response.data.message
-          alert(message)
-          console.error(err)
-        })
-    }
-  }
-
   return {
     email,
     password,
     onChangeEmail,
     onChangePassword,
-    sendData,
     isSubmittable: !(email.error || password.error),
   } as const
 }

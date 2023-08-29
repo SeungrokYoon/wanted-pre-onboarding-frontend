@@ -1,16 +1,15 @@
 import { PropsWithChildren, createContext, useContext } from 'react'
-import useForm, { FormContext, FormModeType } from '../hooks/useform'
+import useForm, { FormContext } from '../hooks/useform'
 import { Link } from 'react-router-dom'
+import { AuthBodyType } from '../api/auth'
 
 type SignFormContext = FormContext
 
 const SignFormContext = createContext<FormContext | null>(null)
 
-interface SignFormProps extends PropsWithChildren {
-  mode: FormModeType
-}
-export default function SignForm({ children, mode }: SignFormProps) {
-  const data = useForm(mode)
+type SignFormProps = PropsWithChildren
+export default function SignForm({ children }: SignFormProps) {
+  const data = useForm()
   return (
     <SignFormContext.Provider value={{ ...data }}>
       <form onSubmit={(e) => e.preventDefault()}>{children}</form>
@@ -63,7 +62,12 @@ function SignFormInputPassword({ testId }: { testId: string }) {
   )
 }
 
-function SignFormButtonGroup({ testId }: { testId: string }) {
+interface SignFormButtonGroup {
+  testId: string
+  onSubmit: (data: AuthBodyType) => void
+}
+
+function SignFormButtonGroup({ testId, onSubmit }: SignFormButtonGroup) {
   const context = useSignFormContext()
   return (
     <>
@@ -71,7 +75,12 @@ function SignFormButtonGroup({ testId }: { testId: string }) {
         type="button"
         data-testid={testId}
         disabled={!context.isSubmittable}
-        onClick={context.sendData}
+        onClick={() => {
+          onSubmit({
+            email: context.email.email,
+            password: context.password.password,
+          })
+        }}
       >
         Sign In
       </button>
@@ -82,7 +91,12 @@ function SignFormButtonGroup({ testId }: { testId: string }) {
   )
 }
 
+function SignFormError({ message }: { message: string }) {
+  return <p>{message}</p>
+}
+
 SignForm.Form = SignForm
 SignForm.Email = SignFormInputEmail
 SignForm.Password = SignFormInputPassword
 SignForm.ButtonGroup = SignFormButtonGroup
+SignForm.Error = SignFormError
