@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 import { Dispatch, PropsWithChildren, createContext, useContext } from 'react'
-import { TodoType } from '../pages/api'
+import { TodoType } from '../utils/api'
 import useTodoState from '../hooks/useTodoState'
 import Todo from './Todo'
 

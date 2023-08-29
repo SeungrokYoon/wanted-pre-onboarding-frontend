@@ -11,6 +11,7 @@ import { AuthProvider } from './AuthProvider'
 import GlobalStyles from './styles/GlobalStyles'
 import { ThemeProvider } from '@emotion/react'
 import { theme } from './styles/theme'
+import ErrorBoundary from './components/ErrorBoundary'
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,11 @@ const router = createBrowserRouter([
         path: 'signup',
         element: <SignUpPage />,
       },
-      { path: 'signin', element: <SignInPage /> },
+      {
+        path: 'signin',
+        element: <SignInPage />,
+        errorElement: <ErrorBoundary />,
+      },
       { path: 'todo', element: <TodoPage /> },
     ],
   },

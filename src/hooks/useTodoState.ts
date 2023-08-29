@@ -5,7 +5,7 @@ import {
   deleteTodo,
   getTodo,
   updateTodo,
-} from '../pages/api'
+} from '../utils/api'
 
 const useTodoState = () => {
   const [todos, setTodos] = useState<TodoType[]>([])
