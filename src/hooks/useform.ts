@@ -1,7 +1,5 @@
 import { useState } from 'react'
 
-export type UseForm = null
-
 interface ErrorState {
   error: boolean
   errorMessage: string
