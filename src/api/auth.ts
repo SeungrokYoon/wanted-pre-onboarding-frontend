@@ -25,14 +25,10 @@ export const signupRequest = async ({ email, password }: AuthBodyType) => {
 }
 
 export const signinRequest = async ({ email, password }: AuthBodyType) => {
-  return await api.post<SigninResponse, AuthBodyType>(
-    AUTH_API_URL.signin,
-    {
-      email,
-      password,
-    },
-    { validateStatus: (status) => status < 500 }
-  )
+  return await api.post<SigninResponse, AuthBodyType>(AUTH_API_URL.signin, {
+    email,
+    password,
+  })
 }
 
-export type { SigninResponse }
+export type { AuthBodyType, SigninResponse }

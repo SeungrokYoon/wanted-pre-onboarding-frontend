@@ -3,6 +3,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 const BASE_API_URL = 'https://www.pre-onboarding-selection-task.shop'
 const TOKEN_KEY_STR = 'access_token'
 const withBearer = (tokenStr: string) => `Bearer ${tokenStr}`
+export const UNKNOWN_ERROR = { message: 'Unknown Error' }
 
 const axiosInstance = axios.create({
   baseURL: BASE_API_URL,
